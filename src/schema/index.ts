@@ -1,8 +1,7 @@
-import { GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
+import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString } from "graphql";
 
-import { UserType } from "../types/user";
-import { users } from "../data";
-import { HobbyType } from "../types/hobby";
+import { UserType, HobbyType } from "../types";
+import { users, hobbies } from "../data";
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQuery",
@@ -21,7 +20,17 @@ const RootQuery = new GraphQLObjectType({
             }
         },
         hobby: {
-            type: HobbyType
+            type: HobbyType,
+            args: {
+                id: {
+                    type: GraphQLID
+                }
+            },
+            resolve: (_, args) => {
+                const hobbie = hobbies.find(hobbie => hobbie.id === args.id);
+
+                return hobbie;
+            }
         }
     })
 });
