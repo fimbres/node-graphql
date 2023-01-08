@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString } from "graphql";
 
-import { UserType, HobbyType } from "../types";
-import { users, hobbies } from "../data";
+import { UserType, HobbyType, PostType } from "../types";
+import { users, hobbies, posts } from "../data";
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQuery",
@@ -30,6 +30,19 @@ const RootQuery = new GraphQLObjectType({
                 const hobbie = hobbies.find(hobbie => hobbie.id === args.id);
 
                 return hobbie;
+            }
+        },
+        post: {
+            type: PostType,
+            args: {
+                id: {
+                    type: GraphQLID
+                }
+            },
+            resolve: (_, args) => {
+                const post = posts.find(post => post.id === args.id);
+                
+                return post;
             }
         }
     })
