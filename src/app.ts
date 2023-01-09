@@ -2,6 +2,7 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import { rootSchema } from './schema';
 
@@ -13,6 +14,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.delqixp.mongodb.net/?retryWrites=true&w=majority`;
 
+app.use(cors());
 app.use('/graphql', graphqlHTTP({
     schema: rootSchema,
     graphiql: true,
