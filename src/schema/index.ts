@@ -2,6 +2,7 @@ import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString, GraphQLInt,
 
 import { UserType, HobbyType, PostType } from "../types";
 import { users, hobbies, posts } from "../data";
+import { userModel, hobbyModel, postModel } from "../models";
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQuery",
@@ -86,13 +87,13 @@ const RootMutation = new GraphQLObjectType({
                 },
             },
             resolve: (parent, args) => {
-                const user = {
+                const user = new userModel({
                     name: args.name,
                     age: args.age,
                     profession: args.profession,
-                };
+                });
 
-                return user;
+                return user.save();
             }
         },
         createPost: {
@@ -109,12 +110,12 @@ const RootMutation = new GraphQLObjectType({
                 }
             },
             resolve: (parent, args) => {
-                const post = {
+                const post = new postModel({
                     comment: args.description,
                     userId: args.userId,
-                }
+                });
 
-                return post;
+                return post.save();
             }
         },
         createHobby: {
@@ -131,12 +132,12 @@ const RootMutation = new GraphQLObjectType({
                 }
             },
             resolve: (parent, args) => {
-                const hobby = {
+                const hobby = new hobbyModel({
                     title: args.title,
                     description: args.description,
-                };
+                });
 
-                return hobby;
+                return hobby.save();
             }
         }
     }
