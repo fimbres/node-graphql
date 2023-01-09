@@ -229,6 +229,23 @@ const RootMutation = new GraphQLObjectType({
 
                 return updatedHobby;
             }
+        },
+        removeUser: {
+            type: UserType,
+            args: {
+                id: {
+                    type: GraphQLID
+                }
+            },
+            resolve: (parent, args) => {
+                const removedUser = userModel.findByIdAndDelete(args.id).exec();
+
+                if(!removedUser) {
+                    throw new Error("User not found!");
+                }
+
+                return removedUser;
+            }
         }
     }
 });
