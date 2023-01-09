@@ -139,6 +139,40 @@ const RootMutation = new GraphQLObjectType({
 
                 return hobby.save();
             }
+        },
+        updateUser: {
+            type: UserType,
+            args: {
+                id: {
+                    type: GraphQLID,
+                },
+                name: {
+                    type: new GraphQLNonNull(GraphQLString),
+                },
+                age: {
+                    type: new GraphQLNonNull(GraphQLInt),
+                },
+                profession: {
+                    type: GraphQLString,
+                },
+            },
+            resolve: (parent, args) => {
+                const updatedUser = userModel.findByIdAndUpdate(
+                    args.id,
+                    {
+                        $set: {
+                            name: args.name,
+                            age: args.age,
+                            profession: args.profession,
+                        }
+                    },
+                    {
+                        new: true,
+                    }
+                );
+
+                return updatedUser;
+            }
         }
     }
 });
