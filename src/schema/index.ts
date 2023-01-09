@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString, GraphQLInt, GraphQLList } from "graphql";
+import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull } from "graphql";
 
 import { UserType, HobbyType, PostType } from "../types";
 import { users, hobbies, posts } from "../data";
@@ -77,10 +77,10 @@ const RootMutation = new GraphQLObjectType({
                     type: GraphQLID,
                 },
                 name: {
-                    type: GraphQLString,
+                    type: new GraphQLNonNull(GraphQLString),
                 },
                 age: {
-                    type: GraphQLInt
+                    type: new GraphQLNonNull(GraphQLInt),
                 },
                 profession: {
                     type: GraphQLString,
@@ -103,10 +103,10 @@ const RootMutation = new GraphQLObjectType({
                     type: GraphQLID,
                 },
                 comment: {
-                    type: GraphQLString,
+                    type: new GraphQLNonNull(GraphQLString),
                 },
                 userId: {
-                    type: GraphQLID
+                    type: new GraphQLNonNull(GraphQLID)
                 }
             },
             resolve: (parent, args) => {
@@ -125,7 +125,7 @@ const RootMutation = new GraphQLObjectType({
                     type: GraphQLID,
                 },
                 title: {
-                    type: GraphQLString,
+                    type: new GraphQLNonNull(GraphQLString),
                 },
                 description: {
                     type: GraphQLString,
