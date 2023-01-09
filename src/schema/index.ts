@@ -173,6 +173,32 @@ const RootMutation = new GraphQLObjectType({
 
                 return updatedUser;
             }
+        },
+        updatePost: {
+            type: PostType,
+            args:  {
+                id: {
+                    type: GraphQLID,
+                },
+                comment: {
+                    type: new GraphQLNonNull(GraphQLString),
+                },
+            },
+            resolve: (parent, args) => {
+                const updatedPost = postModel.findByIdAndUpdate(
+                    args.id,
+                    {
+                        $set: {
+                            comment: args.comment,
+                        }
+                    },
+                    {
+                        new: true,
+                    }
+                );
+
+                return updatedPost;
+            }
         }
     }
 });
