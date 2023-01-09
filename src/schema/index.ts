@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString } from "graphql";
+import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString, GraphQLInt } from "graphql";
 
 import { UserType, HobbyType, PostType } from "../types";
 import { users, hobbies, posts } from "../data";
@@ -48,6 +48,61 @@ const RootQuery = new GraphQLObjectType({
     })
 });
 
+const RootMutation = new GraphQLObjectType({
+    name: 'RootMutation',
+    fields: {
+        createUser: {
+            type: UserType,
+            args: {
+                id: {
+                    type: GraphQLID,
+                },
+                name: {
+                    type: GraphQLString,
+                },
+                age: {
+                    type: GraphQLInt
+                },
+                profession: {
+                    type: GraphQLString,
+                },
+            },
+            resolve: (parent, args) => {
+                const user = {
+                    name: args.name,
+                    age: args.age,
+                    profession: args.profession,
+                };
+
+                return user;
+            }
+        },
+        createPost: {
+            type: PostType,
+            args: {
+                id: {
+                    type: GraphQLID,
+                },
+                comment: {
+                    type: GraphQLString,
+                },
+                userId: {
+                    type: GraphQLID
+                }
+            },
+            resolve: (parent, args) => {
+                const post = {
+                    comment: args.description,
+                    userId: args.userId,
+                }
+
+                return post;
+            }
+        }
+    }
+});
+
 export const rootSchema = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: RootMutation,
 });
