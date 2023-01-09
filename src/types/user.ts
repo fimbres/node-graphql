@@ -1,6 +1,7 @@
-import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } from "graphql";
+import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt, GraphQLList } from "graphql";
 import { HobbyType } from "./hobby";
-import { hobbies } from "../data";
+import { hobbies, posts } from "../data";
+import { PostType } from "./post";
 
 export const UserType = new GraphQLObjectType({
     name: 'User',
@@ -24,6 +25,14 @@ export const UserType = new GraphQLObjectType({
 
                 return hobby;
             }
-        }
+        },
+        // posts: {
+        //     type: new GraphQLList(PostType),
+        //     resolve: (parent, args) => {
+        //         const userPosts = posts.filter(post => post.userID === parent.id);
+
+        //         return userPosts;
+        //     }
+        // }
     })
 });
