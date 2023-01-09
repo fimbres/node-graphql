@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString, GraphQLInt } from "graphql";
+import { GraphQLObjectType, GraphQLID, GraphQLSchema, GraphQLString, GraphQLInt, GraphQLList } from "graphql";
 
 import { UserType, HobbyType, PostType } from "../types";
 import { users, hobbies, posts } from "../data";
@@ -17,6 +17,24 @@ const RootQuery = new GraphQLObjectType({
                 const user = users.find(user => user.id === args.id);
 
                 return user;
+            }
+        },
+        users: {
+            type: new GraphQLList(UserType),
+            resolve: () => {
+                return users;
+            }
+        },
+        posts: {
+            type: new GraphQLList(PostType),
+            resolve: () => {
+                return posts;
+            }
+        },
+        hobbies: {
+            type: new GraphQLList(HobbyType),
+            resolve: () => {
+                return hobbies;
             }
         },
         hobby: {
@@ -97,6 +115,28 @@ const RootMutation = new GraphQLObjectType({
                 }
 
                 return post;
+            }
+        },
+        createHobby: {
+            type: HobbyType,
+            args: {
+                id: {
+                    type: GraphQLID,
+                },
+                title: {
+                    type: GraphQLString,
+                },
+                description: {
+                    type: GraphQLString,
+                }
+            },
+            resolve: (parent, args) => {
+                const hobby = {
+                    title: args.title,
+                    description: args.description,
+                };
+
+                return hobby;
             }
         }
     }
