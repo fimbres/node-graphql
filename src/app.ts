@@ -2,11 +2,12 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 
 import { rootSchema } from './schema';
+import { testSchema } from './types/schema';
 
 const app = express();
 
 app.use('/graphql', graphqlHTTP({
-    schema: rootSchema,
+    schema: testSchema,
     graphiql: true,
 }));
 
