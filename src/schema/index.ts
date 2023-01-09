@@ -246,6 +246,23 @@ const RootMutation = new GraphQLObjectType({
 
                 return removedUser;
             }
+        },
+        removePost: {
+            type: PostType,
+            args: {
+                id: {
+                    type: GraphQLID,
+                }
+            },
+            resolve: (parent, args) => {
+                const removedHobby = hobbyModel.findByIdAndDelete(args.id).exec();
+
+                if(!removedHobby){
+                    throw new Error("Hobby not found!");
+                }
+
+                return removedHobby;
+            }
         }
     }
 });
