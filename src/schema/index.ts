@@ -255,10 +255,27 @@ const RootMutation = new GraphQLObjectType({
                 }
             },
             resolve: (parent, args) => {
+                const removedPost = postModel.findByIdAndDelete(args.id).exec();
+
+                if(!removedPost){
+                    throw new Error("Post not found!");
+                }
+
+                return removedPost;
+            }
+        },
+        removeHobby: {
+            type: HobbyType,
+            args: {
+                id: {
+                    type: GraphQLID,
+                }
+            },
+            resolve: (parent, args) => {
                 const removedHobby = hobbyModel.findByIdAndDelete(args.id).exec();
 
                 if(!removedHobby){
-                    throw new Error("Hobby not found!");
+                    throw new Error("Hobby not found");
                 }
 
                 return removedHobby;
